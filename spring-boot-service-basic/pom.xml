@@ -10,7 +10,7 @@
 	<description>Basic Spring Boot setup to start other service projects with. This can be used as an example for project structure and initial dependencies and must be kept clean.</description>
 	
 	<properties>
-	    <java.version>1.7</java.version>
+	    <java.version>1.8</java.version>
 	</properties>
 
 	<parent>
