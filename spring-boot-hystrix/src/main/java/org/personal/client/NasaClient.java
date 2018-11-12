@@ -12,11 +12,22 @@ import java.time.format.DateTimeFormatter;
 
 @Component
 public class NasaClient {
-    private static final String NASA_APOD_URL = "https://api.nasa.gov/planetary/apod?date={date}&api_key={apiKey}";
     private static final DateTimeFormatter NASA_APOD_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Value("${nasa.apiKey}")
     private String apiKey;
+
+    @Value("${nasa.apod.url")
+    private String apodUrl;
+
+    @Value("${nasa.apod.default.title}")
+    private String defaultTitle;
+
+    @Value("${nasa.apod.default.explanation}")
+    private String defaultExplanation;
+
+    @Value("${nasa.apod.default.url}")
+    private String defaultUrl;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -24,10 +35,17 @@ public class NasaClient {
 
     @HystrixCommand(fallbackMethod = "getDefaultAPOD")
     public APOD getAPOD(LocalDate localDate) {
-        return restTemplate.getForObject(NASA_APOD_URL, APOD.class, localDate.format(NASA_APOD_DATE_FORMATTER), apiKey);
+        return restTemplate.getForObject(apodUrl, APOD.class, localDate.format(NASA_APOD_DATE_FORMATTER), apiKey);
     }
 
     public APOD getDefaultAPOD(LocalDate localDate) {
-        return null;
+        APOD apod = new APOD();
+
+        apod.setTitle(defaultTitle);
+        apod.setExplanation(defaultExplanation);
+        apod.setHdurl(defaultUrl);
+        apod.setDate(LocalDate.now());
+
+        return apod;
     }
 }
