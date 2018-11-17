@@ -17,7 +17,7 @@ public class NasaClient {
     @Value("${nasa.apiKey}")
     private String apiKey;
 
-    @Value("${nasa.apod.url")
+    @Value("${nasa.apod.url}")
     private String apodUrl;
 
     @Value("${nasa.apod.default.title}")
